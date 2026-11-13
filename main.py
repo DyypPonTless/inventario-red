@@ -55,6 +55,7 @@ async def obtener(nombre: str):
     return equipo
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 @app.post("/dispositivos", status_code=201)
 async def crear(nuevo: Dispositivo):
    """Da de alta un equipo. Rechaza nombres repetidos."""
@@ -76,10 +77,16 @@ async def crear(nuevo: Dispositivo):
 @app.put("/dispositivos/{nombre}")
 async def reemplazar(nombre: str, datos: Dispositivo):
     """Sustituye por completo el registro de un equipo."""
+=======
+@app.delete("/dispositivos/{nombre}", status_code=204)
+async def eliminar(nombre: str):
+    """Da de baja un equipo del inventario."""
+>>>>>>> baja
     equipo = buscar(nombre)
     if equipo is None:
         raise HTTPException(status_code=404,
                             detail=f"No existe el equipo {nombre}")
+<<<<<<< HEAD
     inventario[inventario.index(equipo)] = datos
     return datos
 
@@ -95,3 +102,7 @@ async def modificar(nombre: str, cambios: DispositivoParcial):
         setattr(equipo, campo, valor)
     return equipo
 >>>>>>> actualizacion
+=======
+    inventario.remove(equipo)
+    return Response(status_code=204)
+>>>>>>> baja
