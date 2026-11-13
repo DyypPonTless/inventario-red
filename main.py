@@ -53,3 +53,13 @@ async def obtener(nombre: str):
         raise HTTPException(status_code=404,
                             detail=f"No existe el equipo {nombre}")
     return equipo
+
+@app.delete("/dispositivos/{nombre}", status_code=204)
+async def eliminar(nombre: str):
+    """Da de baja un equipo del inventario."""
+    equipo = buscar(nombre)
+    if equipo is None:
+        raise HTTPException(status_code=404,
+                            detail=f"No existe el equipo {nombre}")
+    inventario.remove(equipo)
+    return Response(status_code=204)
