@@ -1,7 +1,7 @@
 """Inventario de red — Práctica 4.
 
 Programación de Redes (E-PRDS-2) · UPQ
-Alumno:    Roxana Denice Rodriguez Nieves
+Alumno:    Roxana Denice Rodríguez Nieves
 Matrícula: 125052994
 """
 from fastapi import FastAPI, HTTPException, Response
@@ -53,3 +53,21 @@ async def obtener(nombre: str):
         raise HTTPException(status_code=404,
                             detail=f"No existe el equipo {nombre}")
     return equipo
+
+@app.post("/dispositivos", status_code=201)
+async def crear(nuevo: Dispositivo):
+   """Da de alta un equipo. Rechaza nombres repetidos."""
+   if buscar(nuevo.nombre) is not None:
+       raise HTTPException(status_code=409,
+                           detail=f"Ya existe el equipo {nuevo.nombre}")
+   inventario.append(nuevo)
+   return nuevo
+
+@app.post("/dispositivos", status_code=201)
+async def crear(nuevo: Dispositivo):
+    """Da de alta un equipo. Rechaza nombres repetidos."""
+    if buscar(nuevo.nombre) is not None:
+        raise HTTPException(status_code=409,
+                            detail=f"Ya existe el equipo {nuevo.nombre}")
+    inventario.append(nuevo)
+    return nuevo
