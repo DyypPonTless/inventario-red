@@ -54,6 +54,7 @@ async def obtener(nombre: str):
                             detail=f"No existe el equipo {nombre}")
     return equipo
 
+<<<<<<< HEAD
 @app.post("/dispositivos", status_code=201)
 async def crear(nuevo: Dispositivo):
    """Da de alta un equipo. Rechaza nombres repetidos."""
@@ -71,3 +72,26 @@ async def crear(nuevo: Dispositivo):
                             detail=f"Ya existe el equipo {nuevo.nombre}")
     inventario.append(nuevo)
     return nuevo
+=======
+@app.put("/dispositivos/{nombre}")
+async def reemplazar(nombre: str, datos: Dispositivo):
+    """Sustituye por completo el registro de un equipo."""
+    equipo = buscar(nombre)
+    if equipo is None:
+        raise HTTPException(status_code=404,
+                            detail=f"No existe el equipo {nombre}")
+    inventario[inventario.index(equipo)] = datos
+    return datos
+
+
+@app.patch("/dispositivos/{nombre}")
+async def modificar(nombre: str, cambios: DispositivoParcial):
+    """Modifica solo los campos enviados."""
+    equipo = buscar(nombre)
+    if equipo is None:
+        raise HTTPException(status_code=404,
+                            detail=f"No existe el equipo {nombre}")
+    for campo, valor in cambios.model_dump(exclude_unset=True).items():
+        setattr(equipo, campo, valor)
+    return equipo
+>>>>>>> actualizacion
